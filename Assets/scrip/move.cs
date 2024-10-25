@@ -3,20 +3,25 @@ using UnityEngine;
 public class move : MonoBehaviour
 {
     public hp hps;
-    public float moveSpeed = 5f;
     [SerializeField]
 
     public int maxHp = 100;
-    [SerializeField]
 
-    Vector3 moveInput;
+    public float moveInputz;
 
-    public int nowHp;
-    [SerializeField]
+    public float moveInputx;
+    [SerializeField] public int nowHp;
+
+    private Rigidbody rb;
+
+    float speed = 3f;
+
+    float re = 10f;
 
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         nowHp = maxHp;
         hps.UpdateHp(nowHp, maxHp);
     }
@@ -30,34 +35,12 @@ public class move : MonoBehaviour
         }
         hps.UpdateHp(nowHp, maxHp);
     }
-
     void Update()
     {
-        moveInput.x = Input.GetAxis("Horizontal");
-        moveInput.z = Input.GetAxis("Vertical");
-        transform.position += moveInput * moveSpeed * Time.deltaTime;
-        // if (moveInput.z != 0)
-        // {
-        //     if (moveInput.z > 0)
-        //     {
-        //         transform.localRotation = Quaternion.Euler(0, 0, 0);
-        //     }
-        //     else
-        //     {
-        //         transform.localRotation = Quaternion.Euler(0, 180, 0);
-        //     }
-        // }
-        // if (moveInput.x != 0)
-        // {
-        //     if (moveInput.x > 0)
-        //     {
-        //         transform.localRotation = Quaternion.Euler(0, 90, 0);
-        //     }
-        //     else
-        //     {
-        //         transform.localRotation = Quaternion.Euler(0, 270, 0);
-        //     }
-        // }
+        moveInputx = Input.GetAxis("Horizontal");
+        moveInputz = Input.GetAxis("Vertical");
+        rb.AddRelativeForce(Vector3.forward * moveInputz * speed);
+        Quaternion qa = Quaternion.Euler(Vector3.up * moveInputx * re * Time.deltaTime);
+        rb.MoveRotation(rb.rotation*qa);
     }
-
 }
