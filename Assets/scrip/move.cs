@@ -14,9 +14,9 @@ public class move : MonoBehaviour
 
     private Rigidbody rb;
 
-    float speed = 3f;
+    float speed = 20f;
 
-    float re = 10f;
+    float re = 30f;
 
 
     private void Start()
